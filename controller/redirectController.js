@@ -34,7 +34,8 @@ const redirectController = {
                 // }else{
                 //     // newres = `https://wa.me/${whatsapp_add}`;
                 // }
-                newres = `https://api.whatsapp.com/send?phone=${whatsapp_add}`;
+                // newres = `https://api.whatsapp.com/send?phone=${whatsapp_add}`;
+                newres = `https://wa.me/${whatsapp_add}`;
                 user.share_redirect = newres;
             } else if(user.what_share === 'mobile') {
                 const mobile_add = user.share_value;
