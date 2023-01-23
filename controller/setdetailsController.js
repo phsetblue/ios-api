@@ -34,7 +34,7 @@ const setdetailsController = {
 
             const userId = tokenInfo._id;
             const { what_share, share_value } = req.body;
-            console.log(what_share);
+            console.log(`what_share = ${what_share} ,,,, share_value = ${share_value}`);
             
             // here what code to write for update in user's what_share and share_value
 
