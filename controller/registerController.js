@@ -4,7 +4,7 @@ import CustomErrorHandler from "../service/CustomErrorHandler.js";
 import bcrypt from "bcrypt";
 import JwtService from "../service/JwtService.js";
 import { RefreshTokenSchema } from "../schema/index.js";
-import { SALT_FACTOR } from "../config/index.js";
+import { APP_URL, SALT_FACTOR } from "../config/index.js";
 
 const registerController = {
     async register(req,res,next){
@@ -31,6 +31,7 @@ const registerController = {
             const document = await User.create({...req.body});
             // console.log(document);
             if(!document) return next(CustomErrorHandler.somethingwrong());
+            // console.log(document);
 
             let access_token;
             let refresh_token;
@@ -38,9 +39,11 @@ const registerController = {
             refresh_token = await JwtService.sign({_id:document._id},"refresh");
             await RefreshTokenSchema.create({_id:document._id,token:refresh_token});
 
-            
+            // const iosBaseUrl = `${APP_URL}api/ios/${document._id}`;
+            // const androidBaseUrl = `${APP_URL}api/android/${document._id}`;
+            const baseUrl = `${APP_URL}api/${document._id}`;
 
-            res.json({access_token,refresh_token});
+            res.json({access_token,refresh_token, baseUrl});
 
         }catch(err){
             return next(err);

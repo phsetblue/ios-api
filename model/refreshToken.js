@@ -4,7 +4,7 @@ const refreshToken = {
     async fetchByToken(token) {
         try{
             let document = await RefreshTokenSchema.findOne(token);
-            console.log("found");
+            // console.log("found");
             return document;
         }catch(err){
             console.log("sdhhbsuhdbs");

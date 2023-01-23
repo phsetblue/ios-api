@@ -30,7 +30,7 @@ const user = {
     },
     async create(payload) {
         try{
-            const document = await new UserSchema(payload);
+            let document = await new UserSchema(payload);
             document = await document.save();
             return document;
         }catch(err){

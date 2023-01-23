@@ -5,6 +5,7 @@ import JwtService from "../service/JwtService.js";
 // var bcrypt = require('bcryptjs');
 import bcrypt from "bcryptjs"
 import { loginValidatorSchema, refreshTokenValidatorSchema } from "../validators/index.js";
+import { APP_URL } from "../config/index.js";
 
 
 const loginController = {
@@ -32,7 +33,10 @@ const loginController = {
 
             await RefreshTokenSchema.create({ _id:user._id, token: user.refresh_token });
 
-            res.json({user, access_token, refresh_token});
+            // const iosBaseUrl = `${APP_URL}api/ios/${user._id}`;
+            // const androidBaseUrl = `${APP_URL}api/android/${user._id}`;
+            const baseUrl = `${APP_URL}api/${user._id}`;
+            res.json({user, access_token, refresh_token, baseUrl});
         }catch(err){
             return next(err);
         }
