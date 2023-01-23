@@ -28,12 +28,13 @@ const redirectController = {
             } else if(user.what_share === 'whatsapp') {
                 const whatsapp_add = user.share_value;
                 console.log(`whatsapp_add = ${whatsapp_add}`);
-                var ua = req.headers['user-agent'].toLowerCase();
-                if(/iphone|ipad|ipod/.test(ua)){
-                    newres = `facetime-audio:${whatsapp_add}`;
-                }else{
-                    newres = `https://wa.me/${whatsapp_add}`;
-                }
+                // var ua = req.headers['user-agent'].toLowerCase();
+                // if(/iphone|ipad|ipod/.test(ua)){
+                //     newres = `facetime-audio:${whatsapp_add}`;
+                // }else{
+                //     // newres = `https://wa.me/${whatsapp_add}`;
+                // }
+                newres = `https://api.whatsapp.com/send?phone=${whatsapp_add}`;
                 user.share_redirect = newres;
             } else if(user.what_share === 'mobile') {
                 const mobile_add = user.share_value;
