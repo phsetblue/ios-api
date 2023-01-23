@@ -10,6 +10,9 @@ connectDB();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.get('/', (req, res) => {
+    res.write("Welcome to site..");
+});
 app.use('/api',routes);
 app.use(errorHandler);
 const PORT = process.env.PORT || APP_PORT;
