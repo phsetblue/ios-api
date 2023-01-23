@@ -1,6 +1,6 @@
 import { RefreshToken, User } from "../model/index.js";
 import CustomErrorHandler from "../service/CustomErrorHandler.js";
-import JwtService from "../service/JWTService.js";
+import JwtService from "../service/JwtService.js";
 import { refreshTokenValidatorSchema } from "../validators/index.js";
 
 const refreshController = {

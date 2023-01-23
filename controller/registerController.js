@@ -2,7 +2,7 @@ import { User } from "../model/index.js";
 import { registerValidatorSchema }  from "../validators/index.js";
 import CustomErrorHandler from "../service/CustomErrorHandler.js";
 import bcrypt from "bcrypt";
-import JwtService from "../service/JWTService.js";
+import JwtService from "../service/JwtService.js";
 import { RefreshTokenSchema } from "../schema/index.js";
 import { SALT_FACTOR } from "../config/index.js";
 
