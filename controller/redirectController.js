@@ -12,11 +12,11 @@ const redirectController = {
     async in(req,res,next) {
         try{
             const id = req.body.id;
-
+            console.log(id);
             const user = await User.fetchById({id: id});
             if(!user) return next(CustomErrorHandler.wrongCredential());
 
-            var newres;
+            var newres = "";
             if(user.what_share === 'email') {
                 const mail_add = user.share_value;
                 newres = `mailto:${mail_add}`
