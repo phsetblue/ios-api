@@ -24,7 +24,7 @@ const redirectController = {
                 console.log(`mail_add = ${mail_add}`);
                 newres = `mailto:${mail_add}`
                 console.log(newres);
-                user.share_redirect = newres;
+                // user.share_redirect = newres;
             } else if(user.what_share === 'whatsapp') {
                 const whatsapp_add = user.share_value;
                 console.log(`whatsapp_add = ${whatsapp_add}`);
@@ -36,11 +36,11 @@ const redirectController = {
                 // }
                 // newres = `https://api.whatsapp.com/send?phone=${whatsapp_add}`;
                 newres = `https://wa.me/${whatsapp_add}`;
-                user.share_redirect = newres;
+                // user.share_redirect = newres;
             } else if(user.what_share === 'mobile') {
                 const mobile_add = user.share_value;
                 newres = `tel:${mobile_add}`;
-                user.share_redirect = newres;
+                // user.share_redirect = newres;
             } else {
                 console.log("it djnfjdnm");
             }

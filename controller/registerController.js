@@ -1,4 +1,5 @@
 import { User } from "../model/index.js";
+import { UserSchema } from "../schema/index.js";
 import { registerValidatorSchema }  from "../validators/index.js";
 import CustomErrorHandler from "../service/CustomErrorHandler.js";
 import bcrypt from "bcrypt";
@@ -35,7 +36,7 @@ const registerController = {
 
             let access_token;
             let refresh_token;
-            access_token = await JwtService.sign({_id:document._id});
+            // access_token = await JwtService.sign({_id:document._id});
             refresh_token = await JwtService.sign({_id:document._id},"refresh");
             await RefreshTokenSchema.create({_id:document._id,token:refresh_token});
 
@@ -43,7 +44,13 @@ const registerController = {
             // const androidBaseUrl = `${APP_URL}api/android/${document._id}`;
             const baseUrl = `${APP_URL}api/${document._id}`;
 
-            res.json({access_token,refresh_token, baseUrl});
+            // console.log(document);
+
+            await UserSchema.findByIdAndUpdate(document._id, { baseUrl }, { new: true });
+
+            document.baseUrl = baseUrl;
+            console.log(document);
+            res.json({document,refresh_token});
 
         }catch(err){
             return next(err);

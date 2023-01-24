@@ -25,8 +25,8 @@ const loginController = {
             // user.access_token = await JwtService.sign({_id:user._id});
             // user.refresh_token = await JwtService.sign({_id:user._id},"refresh");
 
-            const access_token = await JwtService.sign({_id:user._id});
-            user.access_token = access_token;
+            // const access_token = await JwtService.sign({_id:user._id});
+            // user.access_token = access_token;
 
             const refresh_token = await JwtService.sign({_id:user._id},"refresh");
             user.refresh_token = refresh_token;
@@ -35,8 +35,8 @@ const loginController = {
 
             // const iosBaseUrl = `${APP_URL}api/ios/${user._id}`;
             // const androidBaseUrl = `${APP_URL}api/android/${user._id}`;
-            const baseUrl = `${APP_URL}api/${user._id}`;
-            res.json({user, access_token, refresh_token, baseUrl});
+            // const baseUrl = `${APP_URL}api/${user._id}`;
+            res.json({user, refresh_token});
         }catch(err){
             return next(err);
         }
