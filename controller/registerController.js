@@ -16,6 +16,11 @@ const registerController = {
                 return next(error);
             }
             let exist = true;
+
+            const { userName } = req.body;
+            exist = await User.isUsernameExist(userName);
+            if (exist) return next(CustomErrorHandler.alreadyExist('userName already exist!'));
+
             const { email } = req.body;
             exist = await User.isEmailExist(email);
             if (exist) return next(CustomErrorHandler.alreadyExist('Email already exist!'));

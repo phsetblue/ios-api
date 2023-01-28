@@ -28,10 +28,33 @@ const loginController = {
             // const access_token = await JwtService.sign({_id:user._id});
             // user.access_token = access_token;
 
-            const refresh_token = await JwtService.sign({_id:user._id},"refresh");
-            user.refresh_token = refresh_token;
+            var refresh_token;
+            try {
+                const r_t = await RefreshToken.fetchById({_id: user._id});
+                console.log(`r_t = ${r_t}`);
+                if(r_t === "al") {
+                    refresh_token = await JwtService.sign({_id:user._id},"refresh");
+                    user.refresh_token = refresh_token;
+                    console.log("New Generated");
 
-            await RefreshTokenSchema.create({ _id:user._id, token: user.refresh_token });
+                    await RefreshTokenSchema.create({ _id:user._id, token: user.refresh_token });
+                    
+                } else { 
+                    refresh_token = r_t.token;
+                    console.log("already exist");
+                }
+            } catch (error) {
+                console.log("error generated");
+            }
+
+
+            // old code -start
+            // const refresh_token = await JwtService.sign({_id:user._id},"refresh");
+            // user.refresh_token = refresh_token;
+
+            // await RefreshTokenSchema.create({ _id:user._id, token: user.refresh_token });
+
+            // old code - end
 
             // const iosBaseUrl = `${APP_URL}api/ios/${user._id}`;
             // const androidBaseUrl = `${APP_URL}api/android/${user._id}`;
