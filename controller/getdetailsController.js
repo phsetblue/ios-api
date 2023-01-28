@@ -7,10 +7,10 @@ import { RefreshTokenSchema } from "../schema/index.js";
 const getdetailsController = {
     async details(req,res,next){
         try{
-            const {error} = refreshTokenValidatorSchema.validate(req.body);
-            if(error) { 
-                return next(error);
-            }
+            // const {error} = refreshTokenValidatorSchema.validate(req.body);
+            // if(error) { 
+            //     return next(error);
+            // }
             // console.log(req.body.refreshToken);
             let refreshtoken = await RefreshToken.fetchByToken({token: req.body.refreshToken});
             // if(!refreshtoken.token) return next(CustomErrorHandler.unAuthorized('Invalid refresh token!'));
@@ -28,7 +28,7 @@ const getdetailsController = {
             }
 
             const userId = tokenInfo._id;
-            console.log(userId);
+            console.log(`userId = ${userId}`);
             const user = await User.fetchById({_id:userId});
             if(!user) return next(CustomErrorHandler.unAuthorized());
 

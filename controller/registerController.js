@@ -10,26 +10,61 @@ import { APP_URL, SALT_FACTOR } from "../config/index.js";
 const registerController = {
     async register(req,res,next){
         try{
-            console.log(req.body.name);
-            const {error} = registerValidatorSchema.validate(req.body);
-            if(error){
-                return next(error);
-            }
+            // console.log(req.body.name);
+            // const {error} = registerValidatorSchema.validate(req.body);
+            // if(error){
+            //     return next(error);
+            // }
             let exist = true;
 
+            const { name } = req.body;
+            if(name.length < 3) {
+                return next(CustomErrorHandler.somethingwrong('name should have atleast 3 characters!'));
+            };
+
             const { userName } = req.body;
+            if(userName.length < 3) {
+                return next(CustomErrorHandler.somethingwrong('username should have atleast 3 characters!'));
+            };
+
+            const { email } = req.body;
+            // const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            // if(re.test(email) === null) {
+            // } else {
+            //     return next(CustomErrorHandler.somethingwrong('Invalid email address'));
+            // };
+
+            const { password } = req.body;
+            if(password.length < 3) {
+                return next(CustomErrorHandler.somethingwrong('password should have atleast 3 characters!'));
+            };
+
+            const { phoneNumber } = req.body;
+            if(phoneNumber.length < 10) {
+                return next(CustomErrorHandler.somethingwrong('phone number should have 10 digits!'));
+            };
+            if(phoneNumber[0] === '6' || phoneNumber[0] === '7' || phoneNumber[0] === '8' || phoneNumber[0] === '9' ) {
+
+            } else {
+                return next(CustomErrorHandler.somethingwrong('please enter valid phone number.'));
+            }
+
+
+
+
+            // const { userName } = req.body;
             exist = await User.isUsernameExist(userName);
             if (exist) return next(CustomErrorHandler.alreadyExist('userName already exist!'));
 
-            const { email } = req.body;
+            // const { email } = req.body;
             exist = await User.isEmailExist(email);
             if (exist) return next(CustomErrorHandler.alreadyExist('Email already exist!'));
 
-            const { phoneNumber } = req.body;
+            // const { phoneNumber } = req.body;
             exist = await User.isPhoneNumberExist(phoneNumber);
             if (exist) return next(CustomErrorHandler.alreadyExist('Phone number already exist!'));
 
-            let { password } = req.body;
+            // let { password } = req.body;
             const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
             const hashedPassword = await bcrypt.hash(password, salt);
             req.body.password = hashedPassword;
@@ -54,8 +89,11 @@ const registerController = {
             await UserSchema.findByIdAndUpdate(document._id, { baseUrl }, { new: true });
 
             document.baseUrl = baseUrl;
-            console.log(document);
-            res.json({document,refresh_token});
+            // console.log(document);
+
+            var message = "User Registration successful."
+
+            res.json({document,refresh_token, message});
 
         }catch(err){
             return next(err);

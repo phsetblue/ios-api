@@ -9,7 +9,8 @@ router.post("/share_details", setdetailsController.setdetails);
 router.post("/login",loginController.login);
 router.post("/refreshtoken",refreshController.refresh);
 router.post("/logout",[auth],loginController.logout);
-router.get('/:id', redirectController.in);
-router.get('/', getdetailsController.details);
+router.get("/userdetails", getdetailsController.details);
+router.get("/:id", redirectController.in);
+
 
 export default router;

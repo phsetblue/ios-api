@@ -59,7 +59,10 @@ const loginController = {
             // const iosBaseUrl = `${APP_URL}api/ios/${user._id}`;
             // const androidBaseUrl = `${APP_URL}api/android/${user._id}`;
             // const baseUrl = `${APP_URL}api/${user._id}`;
-            res.json({user, refresh_token});
+
+            var message = "User Login Successfully.";
+
+            res.json({user, refresh_token, message});
         }catch(err){
             return next(err);
         }
@@ -72,11 +75,26 @@ const loginController = {
             // }
             // console.log(req);
             // const { refreshToken } = req.body;
-            let refreshToken = req.headers.authorization;
-            console.log(`refreshToken = ${refreshToken}`);
-            // let refreshTokenInfo = await RefreshToken.fetchById({ userId: req.user.userId, token: refreshToken });
-            let refreshTokenInfo = await RefreshToken.fetchByToken({ token : refreshToken });
-            console.log(`newrefreshToken = ${refreshTokenInfo.token}`);
+
+
+            // let refreshToken = req.headers.authorization;
+            
+
+            const {error} = refreshTokenValidatorSchema.validate(req.body);
+            if(error) { 
+                return next(error);
+            }
+            // console.log(req.body.refreshToken);
+            let refreshtoken = await RefreshToken.fetchByToken({token: req.body.refreshToken});
+            // if(!refreshtoken.token) return next(CustomErrorHandler.unAuthorized('Invalid refresh token!'));
+
+            // let refreshToken = refreshtoken.token;
+            let refreshToken = refreshtoken.token;
+            
+            // console.log(`refreshToken = ${refreshToken}`);
+            // // let refreshTokenInfo = await RefreshToken.fetchById({ userId: req.user.userId, token: refreshToken });
+            // let refreshTokenInfo = await RefreshToken.fetchByToken({ token : refreshToken });
+            // console.log(`newrefreshToken = ${refreshTokenInfo.token}`);
 
             // if(!refreshTokenInfo) return next(CustomErrorHandler.unAuthorized('Invalid refresh token!'));
             const del = await RefreshToken.delete({ token : refreshToken });
