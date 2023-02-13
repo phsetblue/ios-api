@@ -9,7 +9,7 @@ router.post("/share_details", setdetailsController.setdetails);
 router.post("/login",loginController.login);
 router.post("/refreshtoken",refreshController.refresh);
 router.post("/logout",[auth],loginController.logout);
-router.get("/userdetails", getdetailsController.details);
+router.post("/userdetails", getdetailsController.details);
 router.get("/:id", redirectController.in);
 
 
