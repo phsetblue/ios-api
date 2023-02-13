@@ -41,6 +41,7 @@ const getdetailsController = {
             res.json({ user, refresh_token });
 
         }catch(err){
+            console.log(err);
             return next(err);
         }
     }
