@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 import { APP_PORT } from "./config/index.js";
 // require('dotenv').config();
 import  { connectDB } from "./database/index.js";
@@ -8,6 +9,7 @@ const app = express();
 
 connectDB();
 
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.get('/', (req, res) => {
