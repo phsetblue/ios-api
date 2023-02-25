@@ -4,6 +4,8 @@ import auth from "../middleware/auth.js";
 const router = express.Router();
 
 router.post("/register",registerController.register);
+router.post("/updatedetails", registerController.updatedetails);
+
 /* user share the details of what to show */
 router.post("/share_details", setdetailsController.setdetails); 
 router.post("/login",loginController.login);
