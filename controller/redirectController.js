@@ -62,7 +62,8 @@ const redirectController = {
             }
 
             if(newres === "") {
-                return res.json({"message": "No Information is Here, Please Contact Owner of This Qr Code"});
+                // return res.json({"message": "No Information is Here, Please Contact Owner of This Qr Code"});
+                return res.render('404');
             } else {
                 return res.redirect(newres);
             }
