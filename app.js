@@ -12,6 +12,7 @@ connectDB();
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
     console.log("fdsfdj");
     res.send("Welcome to site..");

@@ -41,11 +41,31 @@ const redirectController = {
                 const mobile_add = user.share_value;
                 newres = `tel:${mobile_add}`;
                 // user.share_redirect = newres;
+            } else if(user.what_share === 'address') {
+                const address = user.share_value;
+                return res.render('address', {address});
+                // newres = `tel:${mobile_add}`;
+            } else if(user.what_share === 'map') {
+                const map = user.share_value;
+                newres = map;
+            } else if(user.what_share === 'social') {
+                const social = user.share_value;
+                newres = social;
+            } else if(user.what_share === 'link') {
+                const link = user.share_value;
+                newres = link;
+            } else if(user.what_share === 'portfolio') {
+                const portfolio = user.share_value;
+                newres = portfolio;
             } else {
                 console.log("it djnfjdnm");
             }
 
-            res.redirect(newres)
+            if(newres === "") {
+                return res.json({"message": "No Information is Here, Please Contact Owner of This Qr Code"});
+            } else {
+                return res.redirect(newres);
+            }
         }catch(err){
             return next(err);
         }
