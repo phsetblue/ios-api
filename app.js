@@ -5,6 +5,7 @@ import { APP_PORT } from "./config/index.js";
 import  { connectDB } from "./database/index.js";
 import routes from "./routes/index.js";
 import errorHandler from "./middleware/errorHandler.js";
+import './cron.js';
 const app = express();
 
 connectDB();

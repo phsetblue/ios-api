@@ -65,8 +65,9 @@ const registerController = {
             if (exist) return next(CustomErrorHandler.alreadyExist('Phone number already exist!'));
 
             // let { password } = req.body;
-            const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
-            const hashedPassword = await bcrypt.hash(password, salt);
+            // const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
+            // const hashedPassword = await bcrypt.hash(password, salt);
+            const hashedPassword = Buffer.from(password).toString('base64');
             req.body.password = hashedPassword;
             // console.log({...req.body});
             const document = await User.create({ ...req.body });
@@ -82,7 +83,7 @@ const registerController = {
 
             // const iosBaseUrl = `${APP_URL}api/ios/${document._id}`;
             // const androidBaseUrl = `${APP_URL}api/android/${document._id}`;
-            const baseUrl = `${APP_URL}api/${document._id}`;
+            const baseUrl = `${APP_URL}api/content/${document._id}`;
 
             // console.log(document);
 
@@ -92,8 +93,8 @@ const registerController = {
             // console.log(document);
 
             var message = "User Registration successful."
-
-            res.json({ document, refresh_token, message });
+            var user = document;
+            res.json({ user, token: refresh_token, message });
 
         } catch (err) {
             return next(err);
@@ -101,7 +102,7 @@ const registerController = {
     },
     async updatedetails(req, res, next) {
         try {
-            let refreshtoken = await RefreshToken.fetchByToken({ token: req.body.refreshToken });
+            let refreshtoken = await RefreshToken.fetchByToken({ token: req.body.token });
             let refreshToken = refreshtoken.token;
             // console.log(refreshToken);
             // console.log(`dsd = ${refreshToken}`);
@@ -115,8 +116,8 @@ const registerController = {
 
             const userId = tokenInfo._id;
             // console.log(`userId = ${userId}`);
-            const user = await User.fetchById({ _id: userId });
-            if (!user) return next(CustomErrorHandler.unAuthorized());
+            const user1 = await User.fetchById({ _id: userId });
+            if (!user1) return next(CustomErrorHandler.unAuthorized());
 
 
             if (req.body.name && req.body.phoneNumber && req.body.password) {
@@ -141,8 +142,9 @@ const registerController = {
                     return next(CustomErrorHandler.somethingwrong('please enter valid phone number.'));
                 }
 
-                const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
-                const hashedPassword = await bcrypt.hash(password, salt);
+                // const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
+                // const hashedPassword = await bcrypt.hash(password, salt);
+                const hashedPassword = Buffer.from(password).toString('base64');
                 var newpassword = hashedPassword;
 
                 var updated_user = await UserSchema.findByIdAndUpdate(userId, {
@@ -152,9 +154,9 @@ const registerController = {
                 },{new : true});
 
                 if(updated_user) {
-                    var info = updated_user;
+                    var user = updated_user;
                     var message = "User Info Updated Successfully!";
-                    return res.status(200).json({info, refresh_token: req.body.refreshToken, message});
+                    return res.status(200).json({user, token: req.body.token, message});
                 } else  {
                     return next(CustomErrorHandler.somethingwrong());
                 }
@@ -184,9 +186,9 @@ const registerController = {
                 },{new : true});
 
                 if(updated_user) {
-                    var info = updated_user;
+                    var user = updated_user;
                     var message = "User Info Updated Successfully!";
-                    return res.status(200).json({info, refresh_token: req.body.refreshToken, message});
+                    return res.status(200).json({user, token: req.body.token, message});
                 } else  {
                     return next(CustomErrorHandler.somethingwrong());
                 }
@@ -208,8 +210,9 @@ const registerController = {
                     return next(CustomErrorHandler.somethingwrong('please enter valid phone number.'));
                 }
 
-                const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
-                const hashedPassword = await bcrypt.hash(password, salt);
+                // const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
+                // const hashedPassword = await bcrypt.hash(password, salt);
+                const hashedPassword = Buffer.from(password).toString('base64');
                 var newpassword = hashedPassword;
 
                 var updated_user = await UserSchema.findByIdAndUpdate(userId, {
@@ -218,9 +221,9 @@ const registerController = {
                 },{new : true});
 
                 if(updated_user) {
-                    var info = updated_user;
+                    var user = updated_user;
                     var message = "User Info Updated Successfully!";
-                    return res.status(200).json({info, refresh_token: req.body.refreshToken, message});
+                    return res.status(200).json({user, token: req.body.token, message});
                 } else  {
                     return next(CustomErrorHandler.somethingwrong());
                 }
@@ -237,8 +240,9 @@ const registerController = {
                     return next(CustomErrorHandler.somethingwrong('password should have atleast 6 characters!'));
                 };
 
-                const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
-                const hashedPassword = await bcrypt.hash(password, salt);
+                // const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
+                // const hashedPassword = await bcrypt.hash(password, salt);
+                const hashedPassword = Buffer.from(password).toString('base64');
                 var newpassword = hashedPassword;
 
                 var updated_user = await UserSchema.findByIdAndUpdate(userId, {
@@ -247,9 +251,9 @@ const registerController = {
                 },{new : true});
 
                 if(updated_user) {
-                    var info = updated_user;
+                    var user = updated_user;
                     var message = "User Info Updated Successfully!";
-                    return res.status(200).json({info, refresh_token: req.body.refreshToken, message});
+                    return res.status(200).json({user, token: req.body.token, message});
                 } else  {
                     return next(CustomErrorHandler.somethingwrong());
                 }
@@ -266,9 +270,9 @@ const registerController = {
                 },{new : true});
 
                 if(updated_user) {
-                    var info = updated_user;
+                    var user = updated_user;
                     var message = "User Info Updated Successfully!";
-                    return res.status(200).json({info, refresh_token: req.body.refreshToken, message});
+                    return res.status(200).json({user, token: req.body.token, message});
                 } else  {
                     return next(CustomErrorHandler.somethingwrong());
                 }
@@ -290,9 +294,9 @@ const registerController = {
                 },{new : true});
 
                 if(updated_user) {
-                    var info = updated_user;
+                    var user = updated_user;
                     var message = "User Info Updated Successfully!";
-                    return res.status(200).json({info, refresh_token: req.body.refreshToken, message});
+                    return res.status(200).json({user, token: req.body.token, message});
                 } else  {
                     return next(CustomErrorHandler.somethingwrong());
                 }
@@ -304,8 +308,9 @@ const registerController = {
                     return next(CustomErrorHandler.somethingwrong('password should have atleast 6 characters!'));
                 };
 
-                const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
-                const hashedPassword = await bcrypt.hash(password, salt);
+                // const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));
+                // const hashedPassword = await bcrypt.hash(password, salt);
+                const hashedPassword = Buffer.from(password).toString('base64');
                 var newpassword = hashedPassword;
 
                 var updated_user = await UserSchema.findByIdAndUpdate(userId, {
@@ -313,9 +318,9 @@ const registerController = {
                 },{new : true});
 
                 if(updated_user) {
-                    var info = updated_user;
+                    var user = updated_user;
                     var message = "User Info Updated Successfully!";
-                    return res.status(200).json({info, refresh_token: req.body.refreshToken, message});
+                    return res.status(200).json({user, token: req.body.token, message});
                 } else  {
                     return next(CustomErrorHandler.somethingwrong());
                 }

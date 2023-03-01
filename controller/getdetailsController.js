@@ -7,18 +7,10 @@ import { RefreshTokenSchema } from "../schema/index.js";
 const getdetailsController = {
     async details(req,res,next){
         try{
-            // const {error} = refreshTokenValidatorSchema.validate(req.body);
-            // if(error) { 
-            //     return next(error);
-            // }
-            // console.log(req.body.refreshToken);
-            let refreshtoken = await RefreshToken.fetchByToken({token: req.body.refreshToken});
-            // if(!refreshtoken.token) return next(CustomErrorHandler.unAuthorized('Invalid refresh token!'));
+            let refreshtoken = await RefreshToken.fetchByToken({token: req.body.token});
+            if(!refreshtoken) return next(CustomErrorHandler.unAuthorized('Invalid refresh token!'));
 
-            // let refreshToken = refreshtoken.token;
             let refreshToken = refreshtoken.token;
-            // console.log(refreshToken);
-            // console.log(`dsd = ${refreshToken}`);
             let tokenInfo;
             try {
                 tokenInfo = await JwtService.verify(refreshToken,"refresh");
@@ -38,8 +30,7 @@ const getdetailsController = {
             const refresh_token = await JwtService.sign({_id:user._id},"refresh");
             await RefreshTokenSchema.create({ _id:user._id, token: refresh_token });
             
-            res.json({ user, refresh_token });
-
+            res.status(200).json({ user, token: refresh_token, message: "User Details Fetched Successfully" });
         }catch(err){
             console.log(err);
             return next(err);

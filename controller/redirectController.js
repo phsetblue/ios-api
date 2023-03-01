@@ -17,49 +17,58 @@ const redirectController = {
             if(!user) return next(CustomErrorHandler.wrongCredential());
 
             console.log(user);
-            
             var newres = "";
-            if(user.what_share === 'email') {
-                const mail_add = user.share_value;
-                console.log(`mail_add = ${mail_add}`);
-                newres = `mailto:${mail_add}`
-                console.log(newres);
-                // user.share_redirect = newres;
-            } else if(user.what_share === 'whatsapp') {
-                const whatsapp_add = user.share_value;
-                console.log(`whatsapp_add = ${whatsapp_add}`);
-                // var ua = req.headers['user-agent'].toLowerCase();
-                // if(/iphone|ipad|ipod/.test(ua)){
-                //     newres = `facetime-audio:${whatsapp_add}`;
-                // }else{
-                //     // newres = `https://wa.me/${whatsapp_add}`;
-                // }
-                // newres = `https://api.whatsapp.com/send?phone=${whatsapp_add}`;
-                newres = `https://wa.me/${whatsapp_add}`;
-                // user.share_redirect = newres;
-            } else if(user.what_share === 'mobile') {
-                const mobile_add = user.share_value;
-                newres = `tel:${mobile_add}`;
-                // user.share_redirect = newres;
-            } else if(user.what_share === 'address') {
-                const address = user.share_value;
-                return res.render('address', {address});
-                // newres = `tel:${mobile_add}`;
-            } else if(user.what_share === 'map') {
-                const map = user.share_value;
-                newres = map;
-            } else if(user.what_share === 'social') {
-                const social = user.share_value;
-                newres = social;
-            } else if(user.what_share === 'link') {
-                const link = user.share_value;
-                newres = link;
-            } else if(user.what_share === 'portfolio') {
-                const portfolio = user.share_value;
-                newres = portfolio;
+
+            if(user.subscription.status === 'subscribed' || user.subscription.status === 'trial') {
+                if(user.what_share === 'email') {
+                    const mail_add = user.share_value;
+                    console.log(`mail_add = ${mail_add}`);
+                    newres = `mailto:${mail_add}`
+                    console.log(newres);
+                    // user.share_redirect = newres;
+                } else if(user.what_share === 'whatsapp') {
+                    const whatsapp_add = user.share_value;
+                    console.log(`whatsapp_add = ${whatsapp_add}`);
+                    // var ua = req.headers['user-agent'].toLowerCase();
+                    // if(/iphone|ipad|ipod/.test(ua)){
+                    //     newres = `facetime-audio:${whatsapp_add}`;
+                    // }else{
+                    //     // newres = `https://wa.me/${whatsapp_add}`;
+                    // }
+                    // newres = `https://api.whatsapp.com/send?phone=${whatsapp_add}`;
+                    newres = `https://wa.me/${whatsapp_add}`;
+                    // user.share_redirect = newres;
+                } else if(user.what_share === 'mobile') {
+                    const mobile_add = user.share_value;
+                    newres = `tel:${mobile_add}`;
+                    // user.share_redirect = newres;
+                } else if(user.what_share === 'address') {
+                    const address = user.share_value;
+                    return res.render('address', {address});
+                    // newres = `tel:${mobile_add}`;
+                } else if(user.what_share === 'map') {
+                    const map = user.share_value;
+                    newres = map;
+                } else if(user.what_share === 'social') {
+                    const social = user.share_value;
+                    newres = social;
+                } else if(user.what_share === 'link') {
+                    const link = user.share_value;
+                    newres = link;
+                } else if(user.what_share === 'portfolio') {
+                    const portfolio = user.share_value;
+                    newres = portfolio;
+                } else {
+                    console.log("it djnfjdnm");
+                }
             } else {
-                console.log("it djnfjdnm");
+                newres = "https://www.setblue.com/";
             }
+
+
+            
+            
+            
 
             if(newres === "") {
                 // return res.json({"message": "No Information is Here, Please Contact Owner of This Qr Code"});

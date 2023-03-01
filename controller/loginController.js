@@ -19,8 +19,13 @@ const loginController = {
             const user = await User.fetchById({email: email});
             if(!user) return next(CustomErrorHandler.wrongCredential());
 
-            const match = await bcrypt.compare(password,user.password);
-            if(!match) return next(CustomErrorHandler.wrongCredential());
+            // const match = await bcrypt.compare(password,user.password);
+            // if(!match) return next(CustomErrorHandler.wrongCredential());
+            
+            const encoded = Buffer.from(password).toString('base64');
+            if(encoded !== user.password) {
+                return next(CustomErrorHandler.wrongCredential());
+            }
 
             // user.access_token = await JwtService.sign({_id:user._id});
             // user.refresh_token = await JwtService.sign({_id:user._id},"refresh");
@@ -62,7 +67,7 @@ const loginController = {
 
             var message = "User Login Successfully.";
 
-            res.json({user, refresh_token, message});
+            res.json({user, token: refresh_token, message});
         }catch(err){
             return next(err);
         }
@@ -85,7 +90,7 @@ const loginController = {
                 return next(error);
             }
             // console.log(req.body.refreshToken);
-            let refreshtoken = await RefreshToken.fetchByToken({token: req.body.refreshToken});
+            let refreshtoken = await RefreshToken.fetchByToken({token: req.body.token});
             // if(!refreshtoken.token) return next(CustomErrorHandler.unAuthorized('Invalid refresh token!'));
 
             // let refreshToken = refreshtoken.token;
@@ -99,7 +104,7 @@ const loginController = {
             // if(!refreshTokenInfo) return next(CustomErrorHandler.unAuthorized('Invalid refresh token!'));
             const del = await RefreshToken.delete({ token : refreshToken });
             console.log(del);
-            res.json({ message: "Logged out successful" });
+            res.status(200).json({ message: "User Logged out successful" });
         }catch(err) {
             console.log("dsdsd");
             return next(CustomErrorHandler.somethingwrong());

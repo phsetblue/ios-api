@@ -11,7 +11,7 @@ const refreshController = {
                 return next(error);
             }
             // console.log(req.body.refreshToken);
-            let refreshtoken = await RefreshToken.fetchByToken({token: req.body.refreshToken});
+            let refreshtoken = await RefreshToken.fetchByToken({token: req.body.token});
             // if(!refreshtoken.token) return next(CustomErrorHandler.unAuthorized('Invalid refresh token!'));
 
             // let refreshToken = refreshtoken.token;
@@ -33,7 +33,7 @@ const refreshController = {
 
             const access_token = await JwtService.sign({_id:userId});
             
-            res.json({ access_token, refreshToken });
+            res.json({ access_token, token: refreshToken });
 
         }catch(err){
             return next(err);

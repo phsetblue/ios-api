@@ -17,7 +17,7 @@ const setdetailsController = {
             //     return next(error);
             // }
             console.log(req.body);
-            let refreshtoken = await RefreshToken.fetchByToken({token: req.body.refresh_Token});
+            let refreshtoken = await RefreshToken.fetchByToken({token: req.body.token});
             // if(!refreshtoken.token) return next(CustomErrorHandler.unAuthorized('Invalid refresh token!'));
 
             // let refreshToken = refreshtoken.token;
@@ -40,7 +40,7 @@ const setdetailsController = {
 
             await UserSchema.findByIdAndUpdate(userId, { what_share, share_value }, { new: true });
 
-            res.send("Succesfully updated");
+            return res.status(200).json({"message": "Succesfully updated"});
 
         }catch(err){
             return next(err);
