@@ -5,3 +5,4 @@ export {default as refreshController} from "./refreshController.js";
 export {default as redirectController} from "./redirectController.js";
 export {default as getdetailsController} from "./getdetailsController.js";
 export {default as subscriptionController} from "./subscriptionController.js";
+export { default as applewebhookController } from "./applewebhookController.js";
