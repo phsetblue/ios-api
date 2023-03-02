@@ -1,13 +1,25 @@
+import express from 'express';
+import bodyParser from 'body-parser';
 import { UserSchema } from '../schema/index.js'; // Assuming the user model is defined in the 'models/user.js' file
 import { connectDB } from "../database/index.js";
 import fs from 'fs';
+// import path from 'path';
+import { fileURLToPath } from 'url';
 import path from 'path';
+
+const app = express();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+app.use(express.json());
 
 connectDB();
 
-const handleAppleWebhook = async (req, res) => {
+const handleAppleWebhook = async (req, res, next) => {
   try {
-    const notification = req.body;
+    // console.log(req);
+    const notification = req;
+    console.log(notification);
 
     // Log the data received by the API to a file
     const logFilePath = path.join(__dirname, '../logs/applelog.txt');
@@ -20,6 +32,8 @@ const handleAppleWebhook = async (req, res) => {
       // If log file exists, append the data to the end of the file
       fs.appendFileSync(logFilePath, logData);
     }
+
+    /*
 
     // Verify the request is from Apple
     const isAuthentic = verifyAppleSignature(req.headers['x-apple-signature'], JSON.stringify(req.body), 'YOUR_APPLE_SHARED_SECRET');
@@ -39,6 +53,7 @@ const handleAppleWebhook = async (req, res) => {
     }
 
     // Update the user's subscription status based on the notification type
+    // also write the 
     switch (notification.notification_type) {
       case 'CANCEL': {
         user.subscription.status = 'canceled';
@@ -88,14 +103,20 @@ const handleAppleWebhook = async (req, res) => {
 
     // Save the updated user record
     await user.save();
-    console.log('User subscription updated:', user);
+
+
+    */
+
+    // console.log('User subscription updated:', user);
+    console.log('User subscription updated:');
+
 
     
 
-    res.sendStatus(200);
+    res.json({"message": "done"});
   } catch (err) {
     console.log(err);
-    res.sendStatus(500);
+    res.json({"message": "not"});
   }
 };
 

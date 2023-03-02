@@ -5,10 +5,10 @@ const applewebhookController = {
         try {
             const notification = req.body;
             await handleAppleWebhook(notification);
-            res.sendStatus(200);
+            res.json({message: "fdfd"});
           } catch (error) {
             console.error(error);
-            res.sendStatus(500);
+            res.json({message: "error"});
           }
     }
 }
