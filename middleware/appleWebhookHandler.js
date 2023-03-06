@@ -74,9 +74,10 @@ const handleAppleWebhook = async (req, res, next) => {
 
     var user = await UserSchema.findOne({ originalTransactionId: orgtrid });
     // var user = await UserSchema.findById({ originalTransactionId: orgtrid });
-
+    console.log("user == ", user);
     if (user) {
       if (nottype === 'SUBSCRIBED') {
+        console.log("inside SUBSCRIBED");
         user.subscription.appleStatus = nottype;
         user.subscription.appleSubType = notsubtype;
         user.subscription.status = "subscribed";
@@ -87,7 +88,9 @@ const handleAppleWebhook = async (req, res, next) => {
         user.subscription.subscriptionEnd = sub_end;
         await user.save();
       } else if (nottype === 'DID_CHANGE_RENEWAL_STATUS') {
+        console.log("inside DID_CHANGE_RENEWAL_STATUS");
         if (notsubtype === 'AUTO_RENEW_DISABLED') {
+          console.log("inside AUTO_RENEW_DISABLED");
           user.subscription.appleStatus = nottype;
           user.subscription.appleSubType = notsubtype;
           user.subscription.status = "expired";
@@ -98,6 +101,7 @@ const handleAppleWebhook = async (req, res, next) => {
           // user.subscription.subscriptionEnd = sub_end;
           await user.save();
         } else if (notsubtype === 'AUTO_RENEW_ENABLED') {
+          console.log("inside AUTO_RENEW_ENABLED");
           user.subscription.appleStatus = nottype;
           user.subscription.appleSubType = notsubtype;
           user.subscription.status = "subscribed";
@@ -109,6 +113,7 @@ const handleAppleWebhook = async (req, res, next) => {
           await user.save();
         }
       } else if (nottype === 'DID_RENEW') {
+        console.log("inside DID_RENEW");
         user.subscription.appleStatus = nottype;
         user.subscription.appleSubType = notsubtype;
         user.subscription.status = "subscribed";
@@ -119,6 +124,7 @@ const handleAppleWebhook = async (req, res, next) => {
         user.subscription.subscriptionEnd = sub_end;
         await user.save();
       } else if (nottype === 'EXPIRED') {
+        console.log("inside EXPIRED");
         user.subscription.appleStatus = nottype;
           user.subscription.appleSubType = notsubtype;
           user.subscription.status = "expired";
