@@ -50,10 +50,10 @@ const userSchema = new Schema({
             }
         },
         transactionId: {
-            type: Number
+            type: String
         },
         originalTransactionId: {
-            type: Number
+            type: String
         },
         subscriptionStart: {
             type: Date

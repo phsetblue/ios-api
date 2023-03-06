@@ -41,6 +41,7 @@ const handleAppleWebhook = async (req, res, next) => {
 
 
     const decodedPayload = decodeJWSPayload(notification.signedPayload);
+    // const decodedPayload = notification
 
     // Log the data received by the API to a file
     // const logData = `[${new Date().toISOString()}]\n\n ${JSON.stringify(decodedPayload)}\n`;
@@ -73,7 +74,10 @@ const handleAppleWebhook = async (req, res, next) => {
     tra_signeddate.setFullYear(tra_signeddate.getFullYear() + 1);
     const sub_end = tra_signeddate;
 
-    var user = await UserSchema.findOne({ originalTransactionId: orgtrid });
+    var user = await UserSchema.findOne({ 'subscription.originalTransactionId': orgtrid }).catch((err) => {
+      console.error(err);
+    });
+    
     // var user = await UserSchema.findById({ originalTransactionId: orgtrid });
     console.log("user == ", user);
     if (user) {
