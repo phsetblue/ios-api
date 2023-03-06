@@ -26,11 +26,13 @@ const subscriptionController = {
 
             const userId = tokenInfo._id;
             const { appleStatus, appleSubType, transactionId, originalTransactionId, signedDate } = req.body;
-
-            var tra_signeddate = new Date(signedDate);
+            console.log("signedDate - ", signedDate);
+            var tra_signeddate = new Date(parseInt(signedDate));
             const sub_start = tra_signeddate
+            console.log("sub_start - ", sub_start);
             tra_signeddate.setFullYear(tra_signeddate.getFullYear() + 1);
             const sub_end = tra_signeddate;
+            console.log("sub_end - ", sub_end);
 
             const user = await UserSchema.findByIdAndUpdate(
                 userId,
