@@ -13,8 +13,13 @@ const userSchema = new Schema({
     share_value: { type: String, trim: true, required: false, default: null },
     updateWarning: { type: Boolean, default: false },
     updateMessage: { type: String, default: null },
-    // register_date: {type: Date, trim: true, required: true},
     subscription: {
+        appleStatus: {
+            type: String
+        },
+        appleSubType: {
+            type: String
+        },
         subscriptionWarning: {
             type: Boolean,
             default: false
@@ -22,6 +27,10 @@ const userSchema = new Schema({
         subscriptionMessage: {
             type: String,
             default: null
+        },
+        remainingDays: {
+            type: Number,
+            default: 0
         },
         status: {
             type: String,
@@ -40,21 +49,11 @@ const userSchema = new Schema({
                 return new Date(trialEnd);
             }
         },
-        planName: {
-            type: String,
-            required: false
+        transactionId: {
+            type: Number
         },
-        planDetails: {
-            type: String,
-            required: false
-        },
-        planPrice: {
-            type: Number,
-            required: false
-        },
-        planDays: {
-            type: Number,
-            required: false
+        originalTransactionId: {
+            type: Number
         },
         subscriptionStart: {
             type: Date
@@ -63,7 +62,6 @@ const userSchema = new Schema({
             type: Date
         }
     }
-    // share_redirect: {type: String, trim: true, required: false, default: null}
 }, {
     timestamps: true
 });

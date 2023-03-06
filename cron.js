@@ -18,6 +18,7 @@ const checkExpiredTrials = async () => {
       user.subscription.status = 'expired';
       user.subscription.subscriptionWarning = true;
       user.subscription.subscriptionMessage = 'Your trial subscription has expired. Please buy a subscription to continue using our service.';
+      user.subscription.remainingDays = 0;
       await user.save();
       console.log('User trial subscription expired:', user);
     }
@@ -32,6 +33,7 @@ const checkExpiredTrials = async () => {
     for (let user of warningTrialUsers) {
       user.subscription.subscriptionWarning = true;
       user.subscription.subscriptionMessage = `Your trial subscription will expire in 1 day.`;
+      user.subscription.remainingDays = 1;
       await user.save();
       console.log('User trial subscription warning:', user);
     }
@@ -47,6 +49,7 @@ const checkExpiredTrials = async () => {
       user.subscription.status = 'expired';
       user.subscription.subscriptionWarning = true;
       user.subscription.subscriptionMessage = 'Your subscription has expired. Please renew your subscription to continue using our service.';
+      user.subscription.remainingDays = 0;
       await user.save();
       console.log('User subscription expired:', user);
     }
@@ -62,6 +65,7 @@ const checkExpiredTrials = async () => {
       user.subscription.subscriptionWarning = true;
       const daysRemaining = Math.ceil((user.subscription.subscriptionEnd - currentDate) / (1000 * 60 * 60 * 24));
       user.subscription.subscriptionMessage = `Your subscription will expire in ${daysRemaining} days.`;
+      user.subscription.remainingDays = daysRemaining;
       await user.save();
       console.log('User subscription warning:', user);
     }

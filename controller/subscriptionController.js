@@ -24,8 +24,13 @@ const subscriptionController = {
                 return next(CustomErrorHandler.unAuthorized('Invalid refresh token'));
             }
 
-            const userId = tokenInfo._id;
-            const { planName, planDetails, planPrice, planDays } = req.body;
+            // const userId = tokenInfo._id;
+            const { userId, appleStatus, appleSubType, transactionId, signedDate } = req.body;
+
+            var tra_signeddate = new Date(signedDate);
+            const sub_start = tra_signeddate
+            tra_signeddate.setFullYear(tra_signeddate.getFullYear() + 1);
+            const sub_end = tra_signeddate;
 
             const user = await UserSchema.findByIdAndUpdate(
                 userId,
@@ -33,15 +38,12 @@ const subscriptionController = {
                     $set: {
                         "subscription.subscriptionWarning": false,
                         "subscription.subscriptionMessage": null,
-                        "subscription.planName": planName,
-                        "subscription.planDetails": planDetails,
-                        "subscription.planDays": planDays,
-                        "subscription.planPrice": planPrice,
-                        "subscription.subscriptionStart": new Date(),
-                        "subscription.subscriptionEnd": new Date(
-                            Date.now() + planDays * 24 * 60 * 60 * 1000
-                        ),
+                        "subscription.appleStatus": appleStatus,
+                        "subscription.appleSubType": appleSubType,
                         "subscription.status": "subscribed",
+                        "subscription.transactionId": transactionId,
+                        "subscription.subscriptionStart": sub_start,
+                        "subscription.subscriptionEnd": sub_end
                     },
                 },
                 { new: true }
@@ -52,7 +54,7 @@ const subscriptionController = {
             }
             var message = "User Subscription Added successfully.";
             var document = user;
-            return res.status(200).json({user, message});
+            return res.status(200).json({ user, message });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: "Server error" });
