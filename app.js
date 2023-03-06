@@ -5,6 +5,7 @@ import { APP_PORT } from "./config/index.js";
 import  { connectDB } from "./database/index.js";
 import routes from "./routes/index.js";
 import errorHandler from "./middleware/errorHandler.js";
+import { File } from "./model/index.js";
 import './cron.js';
 // import path from 'path';
 import { fileURLToPath } from 'url';
@@ -26,11 +27,25 @@ app.get('/', (req, res) => {
     res.send("Welcome to site..");
 });
 app.use('/api',routes);
-app.get('/file', (req, res) => {
+app.get('/file', async (req, res) => {
     //file located at maindir/logs/applelog.txt
-    const file = path.join(__dirname, 'logs/applelog.txt');
-    res.sendFile(file);
+    // const file = path.join(__dirname, 'logs/applelog.txt');
+    // res.sendFile(file);
+    try {
+        const document = await File.fetchByName('applelog.txt');
+        if (!document) {
+          return res.status(404).send('File not found');
+        }
+        res.send(document.content);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      }
 })
+app.get('/jws', (req, res) => {
+    // console.log("fdsfdj");
+    res.render("new_jws");
+});
 app.use(errorHandler);
 const PORT = process.env.PORT || APP_PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}.`));
