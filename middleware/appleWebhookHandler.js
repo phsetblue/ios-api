@@ -72,8 +72,8 @@ const handleAppleWebhook = async (req, res, next) => {
     tra_signeddate.setFullYear(tra_signeddate.getFullYear() + 1);
     const sub_end = tra_signeddate;
 
-
-    var user = await UserSchema.findById({ originalTransactionId: orgtrid });
+    var user = await UserSchema.findOne({ originalTransactionId: orgtrid });
+    // var user = await UserSchema.findById({ originalTransactionId: orgtrid });
 
     if (user) {
       if (nottype === 'SUBSCRIBED') {
