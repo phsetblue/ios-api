@@ -24,8 +24,8 @@ const subscriptionController = {
                 return next(CustomErrorHandler.unAuthorized('Invalid refresh token'));
             }
 
-            // const userId = tokenInfo._id;
-            const { userId, appleStatus, appleSubType, transactionId, signedDate } = req.body;
+            const userId = tokenInfo._id;
+            const { appleStatus, appleSubType, transactionId, originalTransactionId, signedDate } = req.body;
 
             var tra_signeddate = new Date(signedDate);
             const sub_start = tra_signeddate
@@ -42,6 +42,7 @@ const subscriptionController = {
                         "subscription.appleSubType": appleSubType,
                         "subscription.status": "subscribed",
                         "subscription.transactionId": transactionId,
+                        "subscription.originalTransactionId": originalTransactionId,
                         "subscription.subscriptionStart": sub_start,
                         "subscription.subscriptionEnd": sub_end
                     },
