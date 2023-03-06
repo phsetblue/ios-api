@@ -59,6 +59,7 @@ const handleAppleWebhook = async (req, res, next) => {
     }
 
     const orgtrid = decodedPayload.data.signedTransactionInfo.originalTransactionId;
+    console.log("originalTransactionId == ", orgtrid);
     const trid = decodedPayload.data.signedTransactionInfo.transactionId;
     const nottype = decodedPayload.notificationType;
     const notsubtype = decodedPayload.subtype;
