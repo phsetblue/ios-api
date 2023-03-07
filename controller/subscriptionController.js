@@ -27,7 +27,7 @@ const subscriptionController = {
             const userId = tokenInfo._id;
             const { appleStatus, appleSubType, transactionId, originalTransactionId, signedDate } = req.body;
             console.log("signedDate - ", signedDate);
-            var tra_signeddate = new Date(parseInt(signedDate));
+            var tra_signeddate = new Date(parseInt(signedDate*1000));
             const sub_start = tra_signeddate
             console.log("sub_start - ", sub_start);
             tra_signeddate.setFullYear(tra_signeddate.getFullYear() + 1);
