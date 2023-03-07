@@ -74,6 +74,6 @@ const checkExpiredTrials = async () => {
   }
 };
 
-const job = new CronJob('0 0 * * * *', checkExpiredTrials); // Run every hour
+const job = new CronJob('0/45 * * * * *', checkExpiredTrials); // Run every hour
 
 job.start();
