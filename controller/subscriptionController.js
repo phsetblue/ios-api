@@ -40,8 +40,8 @@ const subscriptionController = {
                     $set: {
                         "subscription.subscriptionWarning": false,
                         "subscription.subscriptionMessage": null,
-                        "subscription.appleStatus": appleStatus,
-                        "subscription.appleSubType": appleSubType,
+                        // "subscription.appleStatus": appleStatus,
+                        // "subscription.appleSubType": appleSubType,
                         "subscription.status": "subscribed",
                         "subscription.transactionId": transactionId,
                         "subscription.originalTransactionId": originalTransactionId,
