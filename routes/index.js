@@ -1,6 +1,6 @@
 import express from "express";
 import jws from 'jws';
-import { loginController, refreshController, registerController, redirectController, setdetailsController, getdetailsController, subscriptionController, applewebhookController } from "../controller/index.js";
+import { loginController, refreshController, registerController, redirectController, setdetailsController, getdetailsController, subscriptionController, applewebhookController, deleteController } from "../controller/index.js";
 import auth from "../middleware/auth.js";
 const router = express.Router();
 
@@ -16,6 +16,8 @@ router.post("/userdetails", getdetailsController.details);
 router.get("/content/:id", redirectController.in);
 router.post("/buysubscription", subscriptionController.buy);
 router.post("/applewebhook", applewebhookController.applehook);
+router.post('/delete', deleteController.delete);
+router.get('/delete-account/:deleteAccountToken', deleteController.deleteAccount);
 
 router.post('/decode', (req, res) => {
     // const { jwsSignature } = req.body;

@@ -6,3 +6,4 @@ export {default as redirectController} from "./redirectController.js";
 export {default as getdetailsController} from "./getdetailsController.js";
 export {default as subscriptionController} from "./subscriptionController.js";
 export { default as applewebhookController } from "./applewebhookController.js";
+export { default as deleteController } from "./deleteController.js";

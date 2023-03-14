@@ -39,14 +39,16 @@ const registerController = {
                 return next(CustomErrorHandler.somethingwrong('password should have atleast 3 characters!'));
             };
 
-            const { phoneNumber } = req.body;
-            if (phoneNumber.length < 10) {
-                return next(CustomErrorHandler.somethingwrong('phone number should have 10 digits!'));
-            };
-            if (phoneNumber[0] === '6' || phoneNumber[0] === '7' || phoneNumber[0] === '8' || phoneNumber[0] === '9') {
-
-            } else {
-                return next(CustomErrorHandler.somethingwrong('please enter valid phone number.'));
+            if(req.body.phoneNumber) {
+                const { phoneNumber } = req.body;
+                if (phoneNumber.length < 10) {
+                    return next(CustomErrorHandler.somethingwrong('phone number should have 10 digits!'));
+                };
+                if (phoneNumber[0] === '6' || phoneNumber[0] === '7' || phoneNumber[0] === '8' || phoneNumber[0] === '9') {
+    
+                } else {
+                    return next(CustomErrorHandler.somethingwrong('please enter valid phone number.'));
+                }
             }
 
 
@@ -60,9 +62,9 @@ const registerController = {
             exist = await User.isEmailExist(email);
             if (exist) return next(CustomErrorHandler.alreadyExist('Email already exist!'));
 
-            // const { phoneNumber } = req.body;
-            exist = await User.isPhoneNumberExist(phoneNumber);
-            if (exist) return next(CustomErrorHandler.alreadyExist('Phone number already exist!'));
+            // // const { phoneNumber } = req.body;
+            // exist = await User.isPhoneNumberExist(phoneNumber);
+            // if (exist) return next(CustomErrorHandler.alreadyExist('Phone number already exist!'));
 
             // let { password } = req.body;
             // const salt = await bcrypt.genSalt(parseInt(SALT_FACTOR));

@@ -14,12 +14,11 @@ const redirectController = {
             const id = req.params.id;
             console.log(`id = ${id}`);
             const user = await User.fetchById({_id: id});
-            if(!user) return next(CustomErrorHandler.wrongCredential());
-
-            console.log(user);
             var newres = "";
-
-            if(user.subscription.status === 'subscribed' || user.subscription.status === 'trial') {
+            if(!user) {
+                newres = "https://apps.apple.com/us/app/setblue-qr/id6445947516";
+            } 
+            else if(user.subscription.status === 'subscribed' || user.subscription.status === 'trial') {
                 if(user.what_share === 'email') {
                     const mail_add = user.share_value;
                     console.log(`mail_add = ${mail_add}`);
@@ -62,7 +61,7 @@ const redirectController = {
                     console.log("it djnfjdnm");
                 }
             } else {
-                newres = "https://www.setblue.com/";
+                newres = "https://apps.apple.com/us/app/setblue-qr/id6445947516";
             }
 
 
